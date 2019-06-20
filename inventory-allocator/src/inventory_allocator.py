@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 class InventoryAllocator:
 
     def getFurthestWarehouse(self, orders, warehouses):
@@ -14,7 +17,8 @@ class InventoryAllocator:
             if value > 0:
                 remainder = value
                 index = 0
-                # if remainder >= 0, it will go to the next warehouse
+                # if remainder >= 0, we get false positive
+                # see test: testGetCheapestShipmentsOneOrderMultipleShipments
                 while index < len(warehouses) and remainder > 0:
                     if key in warehouses[index]['inventory'].keys():
                         remainder -= warehouses[index]['inventory'][key]
@@ -40,14 +44,12 @@ class InventoryAllocator:
 
         # empty orders with furthest warehouse
         for key, value in orders.items():
-            # print(f"{key} {value}")
             if value > 0:
-                # print(warehouses[furthest]['inventory'].keys())
                 if key in warehouses[furthest]['inventory'].keys():
-                    inventory = min(warehouses[furthest]['inventory'][key], value)
+                    inventory = \
+                        min(warehouses[furthest]['inventory'][key], value)
                     orders[key] = value - inventory
                     warehouseName = warehouses[furthest]['name']
-                    # print(f"{key} {inventory} {orders}")
 
                     # add warehouse or update key/value
                     if Toggle_First_Add:
@@ -86,18 +88,9 @@ class InventoryAllocator:
             if furthest == -1:
                 return cheapestShipment
             else:
-                leftovers, cheapestShipment = self.emptyWarehouse(leftovers,
-                                                                  warehouses,
-                                                                  furthest,
-                                                                  cheapestShipment)
+                leftovers, cheapestShipment = \
+                    self.emptyWarehouse(leftovers,
+                                        warehouses,
+                                        furthest,
+                                        cheapestShipment)
         return cheapestShipment
-
-
-# Accept Arguments / Debug
-if __name__ == "__main__":
-    orders = { "apple": 5}
-    warehouses = [
-        { "name": "owd", "inventory": { "apple": 5, "orange": 10 } },
-        { "name": "dm", "inventory": { "apple": 5, "orange": 10 } }]
-    inventoryAllocator = InventoryAllocator()
-    furthest = inventoryAllocator.getFurthestWarehouse(orders, warehouses)

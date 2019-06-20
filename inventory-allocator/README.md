@@ -6,16 +6,14 @@ Note: Algorithm will try to package all items into fewest shipments with cost in
 
 ## Usage
 
-To use tool enter the following command:
+Below is a sample usage of InventoryAllocator:
 
-> python3 inventory-allocator.py (dict) list(dict)
+> from inventory_allocator import InventoryAllocator
+> orders = { "banana": 5, "orange": 5, "apple": 5}
+> warehouses = [{ "name": "owd", "inventory": { "apple": 5, "orange": 10 } }, { "name": "dm", "inventory": { "banana": 5, "orange": 10} }]
+> inventoryAllocator = InventoryAllocator()
+> cheapestShipment = inventoryAllocator.getCheapestShipments(orders, warehouses)
 
-To test tool enter the following command:
+To view unit tests of InventoryAllocator enter the following command:
 
 > python3 inventory-allocator.test.py
-
-# TODO vs TimeTaken:
-
-[x] Inventory Allocator - 3 hours
-[] Test Cases
-[] CommandLine
